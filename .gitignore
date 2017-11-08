@@ -4,3 +4,5 @@ tmp
 .DS_Store
 submissions.txt
 npm-debug.log
+yarn.lock
+dist/

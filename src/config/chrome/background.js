@@ -61,7 +61,6 @@ chrome.runtime.onMessage.addListener((req, sender, sendRes) => {
 
       function removeUnnecessaryPermissions() {
         const whitelist = urls.concat([
-          'https://github.com/*',
           'https://gitlab.com/*'
         ])
         chrome.permissions.getAll((permissions) => {

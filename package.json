@@ -1,7 +1,7 @@
 {
   "name": "octotree",
-  "version": "2.0.13",
-  "description": "Code tree for GitHub and GitLab",
+  "version": "0.0.1",
+  "description": "octotree for private gitlab",
   "main": "inject.js",
   "scripts": {
     "build": "gulp",
@@ -11,14 +11,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/buunguyen/octotree"
+    "url": "https://github.com/zhang2333/octotree"
   },
-  "author": "Buu Nguyen <buunguyen@gmail.com> (https://github.com/buunguyen)",
   "license": "AGPL",
-  "bugs": {
-    "url": "https://github.com/buunguyen/octotree/issues"
-  },
-  "homepage": "https://github.com/buunguyen/octotree",
   "devDependencies": {
     "async": "~0.9.0",
     "babel-core": "^6.1.2",

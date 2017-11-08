@@ -12,7 +12,7 @@ gulp.task('clean', () => {
 })
 
 gulp.task('build', (cb) => {
-  $.runSequence('clean', 'styles', 'chrome', 'opera', 'safari', 'firefox', cb)
+  $.runSequence('clean', 'styles', 'chrome', cb)
 })
 
 gulp.task('default', ['build'], () => {
@@ -20,7 +20,7 @@ gulp.task('default', ['build'], () => {
 })
 
 gulp.task('dist', ['build'], (cb) => {
-  $.runSequence('firefox:xpi', 'chrome:zip', 'chrome:crx', 'opera:nex', cb)
+  $.runSequence('chrome:zip', cb)
 })
 
 gulp.task('test', ['build'], (cb) => {
@@ -78,67 +78,6 @@ gulp.task('chrome:zip', () => {
   return pipe('./tmp/chrome/**/*', $.zip('chrome.zip'), './dist')
 })
 
-gulp.task('chrome:_crx', (cb) => {
-  $.run('"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"' +
-    ' --pack-extension=' + path.join(__dirname, './tmp/chrome') +
-    ' --pack-extension-key=' + path.join(process.env.HOME, '.ssh/chrome.pem')
-  ).exec(cb)
-})
-
-gulp.task('chrome:crx', ['chrome:_crx'], () => {
-  return pipe('./tmp/chrome.crx', './dist')
-})
-
-// Opera
-gulp.task('opera', ['chrome'], () => {
-  return pipe('./tmp/chrome/**/*', './tmp/opera')
-})
-
-gulp.task('opera:nex', () => {
-  return pipe('./dist/chrome.crx', $.rename('opera.nex'), './dist')
-})
-
-// Firefox
-gulp.task('firefox:template', () => {
-  return buildTemplate({FIREFOX: true})
-})
-
-gulp.task('firefox:js', ['firefox:template', 'lib:ondemand'], () => {
-  return buildJs([], {FIREFOX: true})
-})
-
-gulp.task('firefox', ['firefox:js'], () => {
-  return merge(
-    pipe('./icons/**/*', './tmp/firefox/data/icons'),
-    pipe(['./libs/**/*', '!./libs/ondemand{,/**}', './tmp/octotree.*', './tmp/ondemand.js'], './tmp/firefox/data'),
-    pipe('./src/config/firefox/firefox.js', $.babel(), './tmp/firefox/lib'),
-    pipe('./src/config/firefox/package.json', './tmp/firefox')
-  )
-})
-
-gulp.task('firefox:xpi', (cb) => {
-  $.run('cd ./tmp/firefox && ../../node_modules/.bin/jpm xpi && mkdir -p ../../dist && mv jid1-Om7eJGwA1U8Akg*.xpi ../../dist/firefox.xpi').exec(cb)
-})
-
-// Safari
-gulp.task('safari:template', () => {
-  return buildTemplate({SAFARI: true})
-})
-
-gulp.task('safari:js', ['safari:template', 'lib:ondemand'], () => {
-  return buildJs([], {SAFARI: true})
-})
-
-gulp.task('safari', ['safari:js'], () => {
-  return merge(
-    pipe('./icons/icon64.png', $.rename('Icon-64.png'), './tmp/safari/octotree.safariextension'),
-    pipe(
-      ['./libs/**/*', '!./libs/ondemand{,/**}', './tmp/octotree.*', './tmp/ondemand.js', './src/config/safari/**/*'],
-      './tmp/safari/octotree.safariextension/'
-    )
-  )
-})
-
 // Helpers
 function pipe(src, ...transforms) {
   return transforms.reduce((stream, transform) => {
@@ -170,7 +109,6 @@ function buildJs(overrides, ctx) {
     './tmp/template.js',
     './src/constants.js',
     './src/adapters/adapter.js',
-    './src/adapters/github.js',
     './src/adapters/gitlab.js',
     './src/view.help.js',
     './src/view.error.js',
