@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "manifest_version": 2,
   "author": "Louis Zhang",
-  "description": "tree for GitLab(fork from otree)",
+  "description": "tree for GitLab(dated, fork from otree)",
   "icons": {
     "128": "icons/icon128.png"
   },

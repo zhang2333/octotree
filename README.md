@@ -1,4 +1,4 @@
-## Octotree for Gitlab(dated)
+## Octotree for Gitlab(dated version)
 
 fork from octotree
 
