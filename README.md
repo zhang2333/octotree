@@ -2,4 +2,4 @@
 
 fork from octotree
 
-support gitlab only
+support gitlab on chrome only

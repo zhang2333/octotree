@@ -11,17 +11,27 @@ $(document).ready(() => {
   }
 
   function createAdapter() {
-    return new GitLab(store)
+    const currentUrl = `${location.protocol}//${location.host}`
+    const conflictUrls = ['https://github.com', 'https://bitbucket.org']
+    let isConflict = conflictUrls.indexOf(currentUrl) !== -1
+
+    if (!isConflict && location.host.match(/^git.*/)) {
+      return new GitLab(store)
+    }
+
+    return null
   }
 
   function loadExtension() {
+    const adapter = createAdapter()
+    if (!adapter) return
+
     const $html = $('html')
     const $document = $(document)
     const $dom = $(TEMPLATE)
     const $sidebar = $dom.find('.octotree_sidebar')
     const $toggler = $sidebar.find('.octotree_toggle')
     const $views = $sidebar.find('.octotree_view')
-    const adapter = createAdapter()
     const treeView = new TreeView($dom, store, adapter)
     const optsView = new OptionsView($dom, store)
     const helpPopup = new HelpPopup($dom, store)

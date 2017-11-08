@@ -1,6 +1,6 @@
 {
   "name": "Otree4Gitlab",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "manifest_version": 2,
   "author": "Louis Zhang",
   "description": "tree for GitLab(dated, fork from otree)",
