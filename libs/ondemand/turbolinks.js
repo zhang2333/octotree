@@ -114,6 +114,7 @@
       executeScriptTags();
     }
     currentState = window.history.state;
+    window.dispatchEvent(new Event('load'))
     return triggerEvent('page:change');
   };
 
