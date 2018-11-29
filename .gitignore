@@ -6,3 +6,4 @@ submissions.txt
 npm-debug.log
 yarn.lock
 dist/
+.vscode

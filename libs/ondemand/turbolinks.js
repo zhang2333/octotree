@@ -103,24 +103,33 @@
     }
   };
 
+  triggerDOMContentLoaded = function () {
+    var evt = document.createEvent("MutationEvents"); 
+    evt.initMutationEvent("DOMContentLoaded", true, true, document, "", "", "", 0); 
+    document.dispatchEvent(evt)
+  }
+
   changePage = function(title, body, csrfToken, runScripts) {
     document.title = title;
-    document.documentElement.replaceChild(body, document.body);
+
+    document.documentElement.replaceChild(body, document.body)
     if (csrfToken != null) {
       CSRFToken.update(csrfToken);
     }
     removeNoscriptTags();
+
     if (runScripts) {
       executeScriptTags();
     }
     currentState = window.history.state;
+    triggerDOMContentLoaded()
     window.dispatchEvent(new Event('load'))
     return triggerEvent('page:change');
-  };
+  }
 
   executeScriptTags = function() {
     var attr, copy, nextSibling, parentNode, script, scripts, _i, _j, _len, _len1, _ref1, _ref2;
-    scripts = Array.prototype.slice.call(document.body.querySelectorAll('script:not([data-turbolinks-eval="false"])'));
+    scripts = Array.prototype.slice.call(document.querySelectorAll('script:not([data-turbolinks-eval="false"])'))
     for (_i = 0, _len = scripts.length; _i < _len; _i++) {
       script = scripts[_i];
       if (!((_ref1 = script.type) === '' || _ref1 === 'text/javascript')) {
