@@ -12,7 +12,7 @@
     "type": "git",
     "url": "https://github.com/zhang2333/octotree"
   },
-  "license": "AGPL",
+  "license": "MIT",
   "devDependencies": {
     "async": "~0.9.0",
     "babel-core": "^6.1.2",

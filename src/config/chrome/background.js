@@ -1,3 +1,20 @@
+chrome.runtime.onInstalled.addListener(function(details) {
+  function showOpts() {
+    chrome.runtime.openOptionsPage()
+    chrome.storage.sync.set({ isOptsShowed: 1 }, () => {})
+  }
+
+  console.log(details)
+
+  if (details.reason == 'install') {
+    showOpts()
+  } else if (details.reason == 'update') {
+    chrome.storage.sync.get(['isOptsShowed'], function(data) {
+      if (data.isOptsShowed != 1) showOpts()
+    })
+  }
+})
+
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status !== 'loading') return
 

@@ -13,9 +13,14 @@ $(document).ready(() => {
   function createAdapter() {
     const currentUrl = `${location.protocol}//${location.host}`
     const conflictUrls = ['https://github.com', 'https://bitbucket.org']
-    let isConflict = conflictUrls.indexOf(currentUrl) !== -1
+    const isConflict = conflictUrls.indexOf(currentUrl) !== -1
+    const shouldInitGitlab = () => {
+      const isProjectHomePage = !!document.getElementById('readme')
+      const isFileBlob = /\/blob\//.test(window.location.href)
+      return isProjectHomePage || isFileBlob
+    }
 
-    if (!isConflict && location.host.match(/^git.*/)) {
+    if (!isConflict && shouldInitGitlab()) {
       return new GitLab(store)
     }
 

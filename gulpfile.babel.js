@@ -11,8 +11,13 @@ gulp.task('clean', () => {
   return pipe('./tmp', $.clean())
 })
 
+gulp.task('static',
+  () => gulp.src('src/static/*')
+    .pipe(gulp.dest('tmp/chrome/static'))
+)
+
 gulp.task('build', (cb) => {
-  $.runSequence('clean', 'styles', 'chrome', cb)
+  $.runSequence('clean', 'styles', 'chrome', 'static', cb)
 })
 
 gulp.task('default', ['build'], () => {
